@@ -1,0 +1,45 @@
+@import 'tailwindcss';
+
+/* Variables globales DASHEY */
+:root {
+  --color-primary: #000000;
+  --color-secondary: #ffffff;
+  --color-acento: #c8a96e;
+  --color-fondo: #f9f9f9;
+  --color-texto: #1a1a1a;
+  --color-texto-suave: #6b7280;
+  --color-borde: #e5e7eb;
+  --color-error: #ef4444;
+  --color-exito: #22c55e;
+
+  --fuente-principal: 'Inter', sans-serif;
+  --radio-base: 8px;
+  --radio-lg: 12px;
+  --sombra-base: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --sombra-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--fuente-principal);
+  background-color: var(--color-fondo);
+  color: var(--color-texto);
+  line-height: 1.6;
+}
+
+/* Scrollbar personalizado */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+  background: #d1d1d1;
+  border-radius: 3px;
+}
