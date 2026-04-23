@@ -1,17 +1,17 @@
 <template>
-  <header class="bg-white sticky top-0 z-50 shadow-[0_1px_0_0_#f0f0f0]">
+  <header class="bg-white sticky top-0 z-50">
     <!-- Barra principal -->
-    <div class="w-full mx-auto sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between gap-4">
+    <div class="w-full mx-auto px-4 py-2 sm:px-6 lg:px-8 bg-cream">
+      <div class="flex items-center justify-between min-h-16 gap-4">
         <!-- Logo -->
         <RouterLink to="/" class="shrink-0">
-          <span class="text-xl font-bold tracking-[0.25em] uppercase">
-            <span class="text-black">DASHE</span><span :style="{ color: COLOR_ACENTO }">Y</span>
+          <span class="text-xl font-outfit-semibold tracking-[0.25em] uppercase">
+            <span class="text-black">DASHEY</span>
           </span>
         </RouterLink>
 
         <!-- Buscador desktop -->
-        <div class="hidden md:flex flex-1 max-w-sm relative">
+        <div class="font-outfit-light hidden md:flex flex-1 max-w-sm relative text-black">
           <InputText
             v-model="busqueda"
             placeholder="Buscar en la tienda..."
@@ -22,7 +22,7 @@
             icon="pi pi-search"
             text
             rounded
-            severity="secondary"
+            severity="contrast"
             size="small"
             class="absolute! right-1 top-1/2 -translate-y-1/2"
             @click="buscar"
@@ -30,13 +30,13 @@
         </div>
 
         <!-- Acciones -->
-        <div class="flex items-center gap-0.5">
+        <div class="flex items-center gap-2">
           <!-- Búsqueda móvil -->
           <Button
             icon="pi pi-search"
             text
             rounded
-            severity="secondary"
+            severity="contrast"
             class="md:hidden"
             @click="mostrarBusquedaMovil = !mostrarBusquedaMovil"
           />
@@ -46,7 +46,7 @@
             <Button
               text
               rounded
-              severity="secondary"
+              severity="contrast"
               class="flex! items-center! gap-1.5! px-2!"
               @click="menuUsuario = !menuUsuario"
             >
@@ -108,18 +108,33 @@
 
           <!-- Login si no autenticado -->
           <RouterLink v-else to="/auth/login">
-            <Button icon="pi pi-user" text rounded severity="secondary" />
+            <Button icon="pi pi-user" text rounded severity="contrast" />
           </RouterLink>
 
-          <!-- Carrito — siempre navega a /carrito -->
-          <RouterLink to="/carrito" class="relative inline-flex">
-            <Button icon="pi pi-shopping-bag" text rounded severity="secondary" />
+          <RouterLink to="/favoritos" class="relative inline-flex">
+            <Button icon="pi pi-heart" text rounded severity="contrast" />
             <Badge
-              v-if="carritoStore.totalItems > 0"
-              :value="carritoStore.totalItems > 9 ? '9+' : carritoStore.totalItems"
+              v-if="favoritosStore.total > 0"
+              :value="favoritosStore.total > 9 ? '9+' : favoritosStore.total"
               class="absolute! -top-1! -right-1! bg-black! min-w-[1.15rem]! h-[1.15rem]! text-[10px]! p-0! leading-[1.15rem]!"
             />
           </RouterLink>
+
+          <!-- Carrito — siempre navega a /carrito -->
+          <div class="relative inline-flex">
+            <Button
+              icon="pi pi-shopping-bag"
+              text
+              rounded
+              severity="contrast"
+              @click="emit('abrir-carrito')"
+            />
+            <Badge
+              v-if="carritoStore.totalItems > 0"
+              :value="carritoStore.totalItems > 9 ? '9+' : carritoStore.totalItems"
+              class="absolute! -top-1! -right-1! bg-black! min-w-[1.15rem]! h-[1.15rem]! text-[10px]! p-0!"
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -139,7 +154,7 @@
             icon="pi pi-search"
             text
             rounded
-            severity="secondary"
+            severity="contrast"
             size="small"
             class="absolute! right-1 top-1/2 -translate-y-1/2"
             @click="buscarYCerrar"
@@ -149,19 +164,9 @@
     </Transition>
 
     <!-- Categorías desktop: con submenús hover -->
-    <nav class="border-t border-gray-100 hidden md:block">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <ul class="flex items-center justify-center gap-x-2">
-          <li>
-            <RouterLink
-              to="/catalogo"
-              class="nav-link"
-              :class="{ 'nav-link-activo': $route.name === 'catalogo' && !$route.query.categoria }"
-            >
-              Todo
-            </RouterLink>
-          </li>
-
+    <nav class="border-t border-gray-100 bg-cream hidden md:block">
+      <div class="w-full mx-auto px-4 sm:px-6 lg:px-8 py-2">
+        <ul class="flex items-center justify-center gap-x-16">
           <li
             v-for="cat in catalogoStore.categorias"
             :key="cat.id"
@@ -169,34 +174,25 @@
           >
             <RouterLink
               :to="`/catalogo?categoria=${cat.slug}`"
-              class="nav-link"
+              class="relative inline-block px-2 py-1 text-sm group"
               :class="{ 'nav-link-activo': $route.query.categoria === cat.slug }"
             >
               {{ cat.nombre }}
+              <span
+                class="absolute left-0 -bottom-1 h-[1.5px] w-0 bg-black transition-all duration-300 group-hover:w-full"
+              ></span>
             </RouterLink>
-
-            <div
-              v-if="cat.hijos?.length"
-              class="absolute left-0 top-full bg-white border border-gray-100 rounded-xl shadow-lg py-2 min-w-[180px] z-40 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200"
-            >
-              <RouterLink
-                v-for="hijo in cat.hijos"
-                :key="hijo.id"
-                :to="`/catalogo?categoria=${hijo.slug}`"
-                class="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-black transition-colors"
-              >
-                {{ hijo.nombre }}
-              </RouterLink>
-            </div>
           </li>
 
           <li>
             <RouterLink
               to="/catalogo?destacado=true"
-              class="nav-link font-medium"
-              :style="{ color: COLOR_ACENTO }"
+              class="relative inline-block px-2 py-1 text-sm group font-medium text-mocha"
             >
               Ofertas
+              <span
+                class="absolute left-0 -bottom-1 h-[1.5px] w-0 bg-black transition-all duration-300 group-hover:w-full"
+              ></span>
             </RouterLink>
           </li>
         </ul>
@@ -204,7 +200,7 @@
     </nav>
 
     <!-- Categorías móvil: strip horizontal sin submenús -->
-    <div class="md:hidden border-t border-gray-100 overflow-x-auto scrollbar-none">
+    <div class="md:hidden border-t border-gray-100 overflow-x-auto scrollbar-none bg-cream">
       <div class="flex items-center px-4 min-w-max">
         <RouterLink
           to="/catalogo"
@@ -240,6 +236,7 @@ import { useRouter, RouterLink } from 'vue-router'
 import { useAuthStore } from '@/stores/auth.store'
 import { useCarritoStore } from '@/stores/carrito.store'
 import { useCatalogoStore } from '@/stores/catalogo.store'
+import { useFavoritosStore } from '@/stores/favoritos.store'
 import { useAuth } from '@/composables/useAuth'
 import Button from 'primevue/button'
 import Avatar from 'primevue/avatar'
@@ -247,11 +244,12 @@ import Badge from 'primevue/badge'
 import InputText from 'primevue/inputtext'
 
 const COLOR_ACENTO = '#C8A96E'
-
+const emit = defineEmits(['abrir-carrito'])
 const router = useRouter()
 const authStore = useAuthStore()
 const carritoStore = useCarritoStore()
 const catalogoStore = useCatalogoStore()
+const favoritosStore = useFavoritosStore()
 const { logout } = useAuth()
 
 const busqueda = ref('')
@@ -300,7 +298,6 @@ onUnmounted(() => {
 /* ── Categorías desktop ── */
 .nav-link {
   display: block;
-  padding: 0.625rem 0.875rem;
   font-size: 0.8125rem;
   color: #6b7280;
   white-space: nowrap;
@@ -319,7 +316,6 @@ onUnmounted(() => {
 /* ── Categorías móvil ── */
 .cat-chip {
   display: block;
-  padding: 0.5rem 0.75rem;
   font-size: 0.8125rem;
   color: #6b7280;
   white-space: nowrap;

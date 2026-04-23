@@ -15,6 +15,12 @@ const router = createRouter({
           component: () => import('@/views/tienda/HomeVista.vue'),
         },
         {
+          path: 'favoritos',
+          name: 'favoritos',
+          component: () => import('@/views/tienda/FavoritosVista.vue'),
+          meta: { requiereAuth: true },
+        },
+        {
           path: 'catalogo',
           name: 'catalogo',
           component: () => import('@/views/tienda/CatalogoVista.vue'),

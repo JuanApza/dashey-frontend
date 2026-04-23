@@ -1,4 +1,24 @@
+@import url('../fonts/outfit.css');
 @import 'tailwindcss';
+
+@theme {
+  --color-cream: #faf7f2;
+  --color-tinta: #2a2a2a;
+  --color-camel: #c4a882;
+  --color-mocha: #8b6f47;
+  --color-creamprofunda: #f5ede0;
+
+  --font-outfit-thin: 'Outfit-Thin', sans-serif;
+  --font-outfit-extralight: 'Outfit-ExtraLight', sans-serif;
+  --font-outfit-light: 'Outfit-Light', sans-serif;
+  --font-outfit-regular: 'Outfit-Regular', sans-serif;
+  --font-outfit-medium: 'Outfit-Medium', sans-serif;
+  --font-outfit-semibold: 'Outfit-SemiBold', sans-serif;
+  --font-outfit-bold: 'Outfit-Bold', sans-serif;
+  --font-outfit-extrabold: 'Outfit-ExtraBold', sans-serif;
+  --font-outfit-black: 'Outfit-Black', sans-serif;
+  --font-outfit-variable: 'Outfit-Variable', sans-serif;
+}
 
 /* Variables globales DASHEY */
 :root {
@@ -12,7 +32,6 @@
   --color-error: #ef4444;
   --color-exito: #22c55e;
 
-  --fuente-principal: 'Inter', sans-serif;
   --radio-base: 8px;
   --radio-lg: 12px;
   --sombra-base: 0 1px 3px rgba(0, 0, 0, 0.08);
@@ -21,12 +40,11 @@
 
 * {
   margin: 0;
-  padding: 0;
   box-sizing: border-box;
 }
 
 body {
-  font-family: var(--fuente-principal);
+  font-family: var(--font-outfit-regular);
   background-color: var(--color-fondo);
   color: var(--color-texto);
   line-height: 1.6;
